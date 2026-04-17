@@ -1,12 +1,13 @@
 const pasaran = ["Legi", "Pahing", "Pon", "Wage", "Kliwon"];
 const hari = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
 
-// Referensi 1 Januari 1970 = Pon
-const baseDate = new Date("1970-01-01");
+// ACUAN VALID: 17 April 2026 = Jumat Wage
+const baseDate = new Date("2026-04-17");
+const basePasaranIndex = 3; // Wage
 
 function getPasaran(date) {
   const diff = Math.floor((date - baseDate) / (1000 * 60 * 60 * 24));
-  return pasaran[(diff % 5 + 5) % 5];
+  return pasaran[(basePasaranIndex + (diff % 5) + 5) % 5];
 }
 
 function updateClock() {
@@ -33,30 +34,19 @@ function updateClock() {
 setInterval(updateClock, 1000);
 updateClock();
 
+// Background interaktif (hanya 1, tidak double)
 document.addEventListener("mousemove", function(e) {
   const x = e.clientX;
   const y = e.clientY;
 
   document.body.style.background = `
-    radial-gradient(circle at ${x}px ${y}px, 
-    rgba(0,255,255,0.8),
-    rgba(255,0,255,0.5),
-    rgba(0,0,0,0.9) 50%)
+    radial-gradient(circle 80px at ${x}px ${y}px,
+    rgba(0,255,200,0.6),
+    rgba(0,0,0,0.95) 60%)
   `;
 });
 
-document.addEventListener("mousemove", function(e) {
-  const x = e.clientX;
-  const y = e.clientY;
-
-  document.body.style.background = `
-    radial-gradient(circle 15px at ${x}px ${y}px,
-    rgba(0,255,200,1),
-    rgba(0,255,200,0.3) 40%,
-    rgba(0,0,0,0.95) 80%)
-  `;
-});
-
+// Ripple effect klik
 document.addEventListener("click", function(e) {
   const ripple = document.createElement("span");
 
